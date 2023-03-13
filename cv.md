@@ -1,3 +1,5 @@
+![photo](/photo/IMG_9230.jpeg)
+
 1. Kseniya Spiridonova 
 
 2. * e-mail: spiridonova.kseniya@gmail.com
@@ -12,7 +14,29 @@
 5. code example:
 
 ```
-
+function initSessions(callback) {
+    let current_date = document.getElementById('date').value
+    fetch(`/api/sessions?date_min=${current_date}&date_max=${current_date}`, {
+        method: 'GET',
+    })
+        .then((result) => result.json())
+        .then((body) => {
+            let select = document.getElementById('select-session');
+            select.options.length = 0;
+            window.sattva_sessions = {};
+            for (let index in body.result) {
+                let session = body.result[index];
+                window.sattva_sessions[session.id] = session;
+                select.options[select.options.length] = new Option(formatSessionString(session), session.id);
+            }
+            if (callback !== undefined) {
+                callback();
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        })
+}
 ```
 
 6. currently studying at RS-school and my first task – [`cssBayn`](https://github.com/xu69ux/cssBayan)
